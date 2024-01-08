@@ -1,0 +1,36 @@
+﻿@model List<Message>
+@{
+    ViewData["Title"] = "Pigeon Registry";
+}
+
+
+<h1>Pigeon Registry</h1>
+<p>
+    Members can list their pigeons here by breed and color.
+    The registry will be searchable by breed, color, owner and band number.
+</p>
+<p>
+<a href="ForumPost">Enter a new post</a>
+</p>
+<h2>Filter Forum Posts</h2>
+<form method="post">
+    <label>Sender</label>
+    <input name="toname"/>
+    <input type="submit" />
+</form>
+
+<h2>Forum Posts</h2>
+Members can also offer birds for sale or report missing or found birds.
+@if (@Model != null)
+{
+
+    @foreach(var message in Model)
+    {
+        <p>
+            From: @message.From.Name <br>
+            To: @message.To.Name <br>
+            Message: @message.Text <br>
+            Date: @message.Date 
+        </p>
+    }
+}

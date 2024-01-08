@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllAboutPigeons", "AllAboutPigeons.csproj", "{B79D3FD2-A364-41D5-B4EB-B3ACC016E368}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PigeonTests", "..\PigeonTests\PigeonTests.csproj", "{6EB32244-B03B-4281-91E3-FFFE149F6BDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B79D3FD2-A364-41D5-B4EB-B3ACC016E368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B79D3FD2-A364-41D5-B4EB-B3ACC016E368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B79D3FD2-A364-41D5-B4EB-B3ACC016E368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B79D3FD2-A364-41D5-B4EB-B3ACC016E368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EB32244-B03B-4281-91E3-FFFE149F6BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EB32244-B03B-4281-91E3-FFFE149F6BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EB32244-B03B-4281-91E3-FFFE149F6BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EB32244-B03B-4281-91E3-FFFE149F6BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {301BED07-F880-456F-8FAB-0E9D2DE29543}
+	EndGlobalSection
+EndGlobal

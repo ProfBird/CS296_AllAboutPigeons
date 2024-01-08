@@ -1,0 +1,32 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "Forum Post";
+}
+
+<h1>Forum Post</h1>
+<form method="Post" class="container">
+    <div class="row col-10 p-2">
+        @* row width is 10 out of 12 columns, with 8px padding *@
+        <label for="to" class="col-md-2 col-form-label">To</label>  @* md breakpoint is 768px *@
+        <div class="col-md-8"> @* put the input in a div so it is inline not block*@
+            <input id="to" name="To.Name" class="form-control">
+        </div>
+    </div>
+    <div class="row col-10 p-2">
+        <label for="from" class="col-md-2 form-label">From</label>
+        <div class="col-md-8">
+            <input id="from" name="From.Name" class="form-control">
+        </div>
+    </div>
+    <div class="row col-10 p-2">
+        <label for="message" class="col-md-2 form-label">Message:</label>
+        <div class="col-md-8">
+            <input id="message" name="Text" class="col-md-8 form-control">
+        </div>
+    </div>
+    <div class="row col-10  pt-2 pe-3">
+        <span class="col-md-8"></span>  @* space the submit button over to the right *@
+        <input type="submit" class="btn btn-primary  col-md-2" value="Submit">
+    </div>
+</form>
+
