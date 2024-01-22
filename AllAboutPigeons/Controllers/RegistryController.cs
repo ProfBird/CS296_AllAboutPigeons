@@ -1,5 +1,6 @@
 ﻿using AllAboutPigeons.Data;
 using AllAboutPigeons.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
@@ -10,8 +11,11 @@ namespace AllAboutPigeons.Controllers
     {
        // AppDbContext context;
        IRegistryRepository repository;
-        public RegistryController(IRegistryRepository r) {
+        UserManager<AppUser> userManager;
+        public RegistryController(IRegistryRepository r, UserManager<AppUser> u) 
+        {
             repository = r;
+            userManager = u;
         }
 
         // TODO: Do something interesting with the messageId
@@ -22,7 +26,6 @@ namespace AllAboutPigeons.Controllers
             // .Where(m => m.MessageId == int.Parse(messageId))
             // .FirstOrDefault();
             // .Find(int.Parse(messageId));
-            messages = null;
             return View(messages);
         }
 
@@ -45,6 +48,8 @@ namespace AllAboutPigeons.Controllers
         public IActionResult ForumPost(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
+            model.From = userManager.GetUserAsync(User).Result;
+
             // Temporarily add a random rating to the post
             Random random = new Random();
             model.Rating = random.Next(0, 10);
