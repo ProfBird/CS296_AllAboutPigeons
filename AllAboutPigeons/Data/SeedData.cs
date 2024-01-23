@@ -1,20 +1,21 @@
 ﻿using AllAboutPigeons.Data;
 using AllAboutPigeons.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AllAboutPigeons
 {
     public class SeedData
     {
-        public static void Seed(AppDbContext context)
-
+        public static void Seed(AppDbContext context, IServiceProvider provider)
         {
             if (!context.Messages.Any())  // this is to prevent adding duplicate data
             {
-                var user1 = new AppUser { Name = "Brian" };
-                var user2 = new AppUser { Name = "Amanda" };
-                context.Users.Add(user1);
-                context.Users.Add(user2);
-                context.SaveChanges();
+                var userManager = provider.GetRequiredService<UserManager<AppUser>>();
+                var user1 = new AppUser { Name = "Brian Bird", UserName = "Brian" };
+                var user2 = new AppUser { Name = "Amanda Bird", UserName = "Amanda" };
+                const string SECRET_PASSWORD = "Secret!123";
+                userManager.CreateAsync(user1, SECRET_PASSWORD);
+                userManager.CreateAsync(user2, SECRET_PASSWORD);
 
                 var message1 = new Message
                 {
