@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllAboutPigeons.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240108233054_Identity")]
+    [Migration("20240123180609_Identity")]
     partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

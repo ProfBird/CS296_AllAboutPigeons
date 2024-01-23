@@ -17,12 +17,8 @@ namespace AllAboutPigeons.Controllers
         // TODO: Do something interesting with the messageId
         public IActionResult Index()
         {
-            // Get the last post out of the database
+            // Get all posts out of the database
            var messages = repository.GetMessages();
-            // .Where(m => m.MessageId == int.Parse(messageId))
-            // .FirstOrDefault();
-            // .Find(int.Parse(messageId));
-            messages = null;
             return View(messages);
         }
 

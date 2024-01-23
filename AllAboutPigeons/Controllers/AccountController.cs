@@ -43,18 +43,10 @@ namespace AllAboutPigeons.Controllers
         }
 
        
-
-      
-
-      
-
         public ViewResult AccessDenied()
         {
             return View();
         }
-
-       
-      
 
     }
 }
