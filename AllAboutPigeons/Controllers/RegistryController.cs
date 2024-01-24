@@ -1,5 +1,6 @@
 ﻿using AllAboutPigeons.Data;
 using AllAboutPigeons.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,12 +40,14 @@ namespace AllAboutPigeons.Controllers
             return View("Index", messages);
         }
 
+        [Authorize]
         public IActionResult ForumPost() 
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult ForumPost(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
