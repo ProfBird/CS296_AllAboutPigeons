@@ -10,7 +10,6 @@
 </head>
 <body>
     @using Microsoft.AspNetCore.Identity
-    @inject SignInManager<AppUser> signInManager
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -31,10 +30,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Quiz" asp-action="Index">Quiz</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Registry" asp-action="Index">Messages</a>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav flex-grow-1">
-                        @if (signInManager.IsSignedIn(User))
+                        @if (User.Identity.IsAuthenticated)
                         {
                         // Signed-in user - Log Out button and username
                             <li class="nav-item">
