@@ -38,7 +38,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                        // Signed-in user - Log Out button and username
+                        // Signed-in user - show Log Out button and username
                             <li class="nav-item">
                                 <form method="post" asp-action="Logout" asp-controller="Account">
                                     <input type="submit" value="Log Out" class="btn btn-outline-dark" />
@@ -48,9 +48,7 @@
                         }
                         else
                         {
-                            // Get current action
-                            var action = ViewContext.RouteData.Values["action"]?.ToString();
-                            // anonymous user - Register link and Log In button
+                            // anonymous user - show Register link and Log In button
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">
                                     <span class="fas fa-edit"></span> &nbsp; Register
