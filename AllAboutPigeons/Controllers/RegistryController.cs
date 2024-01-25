@@ -3,8 +3,6 @@ using AllAboutPigeons.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace AllAboutPigeons.Controllers
 {
@@ -51,7 +49,10 @@ namespace AllAboutPigeons.Controllers
         public IActionResult ForumPost(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
-            model.From = userManager.GetUserAsync(User).Result;
+            if (userManager != null) // Don't get a user when doing unit tests
+            {
+                model.From = userManager.GetUserAsync(User).Result;
+            }
 
             // Temporarily add a random rating to the post
             Random random = new Random();

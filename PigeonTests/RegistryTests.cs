@@ -11,7 +11,7 @@ namespace PigeonTests
         {
             // Arrange: create a controller object and model object
             var repo = new FakeRegistryRepository();
-            var controller = new RegistryController(repo);
+            var controller = new RegistryController(repo, null);
             var model = new Message()
             {
                 From = new AppUser { Name = "Tester", },

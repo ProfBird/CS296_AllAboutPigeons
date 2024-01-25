@@ -65,7 +65,6 @@ namespace AllAboutPigeons.Controllers
                 int key = question.Key;
                 model.Results[key] = model.Answers[key] == model.UserAnswers[key];
             }
-            model = null;
             return model;
         }
     }
