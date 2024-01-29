@@ -2,9 +2,8 @@
 
 namespace AllAboutPigeons.Models
 {
-    public class RegisterViewModel
+    public class RegisterVM
     {
-        [Required(ErrorMessage = "Please enter a username.")]
         [StringLength(255)]
         public string Name { get; set; } = string.Empty;
 
