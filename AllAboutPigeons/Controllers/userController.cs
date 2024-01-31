@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using AllAboutPigeons.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AllAboutPigeons.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -34,7 +36,7 @@ namespace AllAboutPigeons.Controllers
 
         public IActionResult Add()
         {
-            return View();
+            return View("../Account/Register");
         }
 
         [HttpPost]
@@ -57,7 +59,7 @@ namespace AllAboutPigeons.Controllers
                     }
                 }
             }
-            return View(model);
+            return View("../Account/Register", model);
         }
 
         [HttpPost]
