@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AllAboutPigeons.Controllers
 {
-    public class RegistryController : Controller
+    public class MessageController : Controller
     {
        // AppDbContext context;
        IRegistryRepository repository;
         UserManager<AppUser> userManager;
-        public RegistryController(IRegistryRepository r, UserManager<AppUser> u) 
+        public MessageController(IRegistryRepository r, UserManager<AppUser> u) 
         {
             repository = r;
             userManager = u;

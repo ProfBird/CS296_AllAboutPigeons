@@ -4,14 +4,14 @@ using AllAboutPigeons.Models;
 
 namespace PigeonTests
 {
-    public class RegistryTests
+    public class MessageTests
     {
         [Fact]
         public void ForumPostTest()
         {
             // Arrange: create a controller object and model object
             var repo = new FakeRegistryRepository();
-            var controller = new RegistryController(repo, null);
+            var controller = new MessageController(repo, null);
             var model = new Message()
             {
                 From = new AppUser { Name = "Tester", },
