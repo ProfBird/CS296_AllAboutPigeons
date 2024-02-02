@@ -10,7 +10,7 @@ namespace PigeonTests
         public void ForumPostTest()
         {
             // Arrange: create a controller object and model object
-            var repo = new FakeRegistryRepository();
+            var repo = new FakeMessageRepository();
             var controller = new MessageController(repo, null);
             var model = new Message()
             {

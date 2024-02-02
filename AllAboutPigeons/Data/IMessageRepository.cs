@@ -2,7 +2,7 @@
 
 namespace AllAboutPigeons.Data
 {
-    public interface IRegistryRepository
+    public interface IMessageRepository
     {
         public List<Message> GetMessages();
         public Message GetMessageById(int id);

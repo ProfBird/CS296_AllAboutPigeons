@@ -2,7 +2,7 @@
 
 namespace AllAboutPigeons.Models
 {
-    public class RegisterVM
+    public class RegisterVm
     {
         [StringLength(255)]
         public string Name { get; set; } = string.Empty;

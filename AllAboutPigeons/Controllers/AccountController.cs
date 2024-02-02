@@ -6,13 +6,13 @@ namespace AllAboutPigeons.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public AccountController(UserManager<AppUser> userMngr, SignInManager<AppUser> signInMgr)
         {
-            userManager = userMngr;
-            signInManager = signInMgr;
+            _userManager = userMngr;
+            _signInManager = signInMgr;
         }
 
         [HttpGet]
@@ -22,12 +22,12 @@ namespace AllAboutPigeons.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM model)
+        public async Task<IActionResult> Register(RegisterVm model)
         {
             if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = model.Username, Name = model.Name };
-                var result = await userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -45,9 +45,9 @@ namespace AllAboutPigeons.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogIn(string returnURL = "")
+        public IActionResult LogIn(string returnUrl = "")
         {
-            var model = new LoginViewModel { ReturnUrl = returnURL };
+            var model = new LoginViewModel { ReturnUrl = returnUrl };
             return View(model);
         }
 
@@ -56,7 +56,7 @@ namespace AllAboutPigeons.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(
+                var result = await _signInManager.PasswordSignInAsync(
                     model.Username, model.Password, isPersistent: model.RememberMe,
                     lockoutOnFailure: false);
 
@@ -80,7 +80,7 @@ namespace AllAboutPigeons.Controllers
         [HttpPost]
         public async Task<IActionResult> LogOut()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 

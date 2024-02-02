@@ -2,10 +2,9 @@
 
 namespace AllAboutPigeons.Data
 {
-    public class FakeRegistryRepository : IRegistryRepository
+    public class FakeMessageRepository : IMessageRepository
     {
-        List<Message> messages = new List<Message>();
-
+        List<Message> _messages = new List<Message>();
 
         public Message GetMessageById(int id)
         {
@@ -19,8 +18,8 @@ namespace AllAboutPigeons.Data
 
         public int StoreMessage(Message message)
         {
-            message.MessageId = messages.Count + 1; // Temp
-            messages.Add(message);
+            message.MessageId = _messages.Count + 1; // Temp
+            _messages.Add(message);
             return message.MessageId;
         }
     }

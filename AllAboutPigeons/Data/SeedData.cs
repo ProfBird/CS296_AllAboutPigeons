@@ -27,7 +27,7 @@ namespace AllAboutPigeons
 
                 // Note: we're not using async/await here,
                 // just using the Result property to make the call synchronous
-                // and Success to check for successful creation of a user
+                // and Success to check for successful creation of a user.
                 isSuccess &= userManager.CreateAsync(user1, SECRET_PASSWORD).Result.Succeeded;
                 if (isSuccess)
                 {

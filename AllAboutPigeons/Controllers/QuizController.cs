@@ -36,7 +36,7 @@ namespace AllAboutPigeons.Controllers
             model.UserAnswers[2] = answer2;
             model.UserAnswers[3] = answer3;
             // Check the user's answers
-            var checkedModel = checkQuizAnswers(model);
+            var checkedModel = CheckQuizAnswers(model);
             return View(checkedModel);
         }
 
@@ -58,7 +58,7 @@ namespace AllAboutPigeons.Controllers
             return model;
         }
 
-        public QuizQuestions checkQuizAnswers(QuizQuestions model) 
+        public QuizQuestions CheckQuizAnswers(QuizQuestions model) 
         { 
             foreach (var question in Questions) 
             {

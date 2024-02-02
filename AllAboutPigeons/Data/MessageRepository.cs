@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AllAboutPigeons.Data
 {
-    public class RegistryRepository : IRegistryRepository
+    public class MessageRepository : IMessageRepository
     {
-        AppDbContext context;
-        public RegistryRepository(AppDbContext c) 
+        AppDbContext _context;
+        public MessageRepository(AppDbContext c) 
         {
-            context = c;
+            _context = c;
         }
 
         public Message GetMessageById(int id)
@@ -18,7 +18,7 @@ namespace AllAboutPigeons.Data
 
         public List<Message> GetMessages()
         {
-            return context.Messages
+            return _context.Messages
             .Include(m => m.To)
             .Include(m => m.From)
             .ToList();
@@ -26,9 +26,9 @@ namespace AllAboutPigeons.Data
 
         public int StoreMessage(Message message)
         {
-            context.Add(message);
+            _context.Add(message);
             // Returns the number of objects saved
-            return context.SaveChanges();
+            return _context.SaveChanges();
         }
     }
 }

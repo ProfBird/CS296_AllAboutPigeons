@@ -9,19 +9,19 @@ namespace AllAboutPigeons.Controllers
     public class MessageController : Controller
     {
        // AppDbContext context;
-       IRegistryRepository repository;
-        UserManager<AppUser> userManager;
-        public MessageController(IRegistryRepository r, UserManager<AppUser> u) 
+       readonly IMessageRepository _repository;
+       readonly UserManager<AppUser> _userManager;
+        public MessageController(IMessageRepository r, UserManager<AppUser> u) 
         {
-            repository = r;
-            userManager = u;
+            _repository = r;
+            _userManager = u;
         }
 
         // TODO: Do something interesting with the messageId
         public IActionResult Index()
         {
             // Get the last post out of the database
-           var messages = repository.GetMessages();
+           var messages = _repository.GetMessages();
             // .Where(m => m.MessageId == int.Parse(messageId))
             // .FirstOrDefault();
             // .Find(int.Parse(messageId));
@@ -31,7 +31,7 @@ namespace AllAboutPigeons.Controllers
         [HttpPost]
         public IActionResult Index(string toname)
         {
-            List<Message> messages = (from m in repository.GetMessages()
+            List<Message> messages = (from m in _repository.GetMessages()
             where m.To.Name == toname
             select m).ToList();
 
@@ -49,20 +49,30 @@ namespace AllAboutPigeons.Controllers
         public IActionResult ForumPost(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
-            if (userManager != null) // Don't get a user when doing unit tests
+            if (_userManager != null) // Don't get a user when doing unit tests
             {
-                model.From = userManager.GetUserAsync(User).Result;
+                model.From = _userManager.GetUserAsync(User).Result;
             }
 
             // Temporarily add a random rating to the post
+            // TODO: Add a way for users to rate messages, or remove ratings
             Random random = new Random();
             model.Rating = random.Next(0, 10);
-
-            // Save model to db
-            int result;
-            result = repository.StoreMessage(model);
-            // TODO: Do something with the result
-            return RedirectToAction("Index", new { model.MessageId });
+            
+            // Check to see if the recipient is a registered user
+            AppUser recipient = _userManager.FindByNameAsync(model.To.Name).Result;
+            if(recipient != null)
+            {
+                model.To = recipient;
+                // Save the message
+                _repository.StoreMessage(model);
+                return RedirectToAction("Index", new { model.MessageId });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Recipient not a registered user");
+                return View(model);
+            }
         }
 
             public IActionResult Info()
