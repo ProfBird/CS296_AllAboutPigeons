@@ -51,7 +51,14 @@ namespace AllAboutPigeons.Controllers
             model.Date = DateOnly.FromDateTime(DateTime.Now);
             if (_userManager != null) // Don't get a user when doing unit tests
             {
+                // Get the sender
                 model.From = _userManager.GetUserAsync(User).Result;
+                // Check to see if the recipient user name matches a registered user
+                AppUser recipient = _userManager.FindByNameAsync(model.To.Name).Result;
+                if (recipient != null)
+                {
+                    model.To = recipient;
+                }
             }
 
             // Temporarily add a random rating to the post
@@ -59,11 +66,8 @@ namespace AllAboutPigeons.Controllers
             Random random = new Random();
             model.Rating = random.Next(0, 10);
             
-            // Check to see if the recipient is a registered user
-            AppUser recipient = _userManager.FindByNameAsync(model.To.Name).Result;
-            if(recipient != null)
+            if(model.To.UserName != "")  // check for valid recipient
             {
-                model.To = recipient;
                 // Save the message
                 _repository.StoreMessage(model);
                 return RedirectToAction("Index", new { model.MessageId });
