@@ -46,7 +46,7 @@ namespace AllAboutPigeons.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult ForumPost(Message model)
+        public async Task<IActionResult>  ForumPost(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
             if (_userManager != null) // Don't get a user when doing unit tests
@@ -54,7 +54,7 @@ namespace AllAboutPigeons.Controllers
                 // Get the sender
                 model.From = _userManager.GetUserAsync(User).Result;
                 // Check to see if the recipient user name matches a registered user
-                AppUser recipient = _userManager.FindByNameAsync(model.To.Name).Result;
+                AppUser recipient = await _userManager.FindByNameAsync(model.To.Name);
                 if (recipient != null)
                 {
                     model.To = recipient;

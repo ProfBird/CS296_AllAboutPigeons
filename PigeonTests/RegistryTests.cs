@@ -21,7 +21,7 @@ namespace PigeonTests
                 
 
             // Act: pass a model to the controller ForumPost method
-            controller.ForumPost(model);
+            controller.ForumPost(model).Wait();
 
             // Assert: Id, date, and rating got added to the model
             Assert.True(model.MessageId > 0);
