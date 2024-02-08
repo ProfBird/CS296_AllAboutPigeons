@@ -29,11 +29,11 @@ namespace AllAboutPigeons.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string toname)
+        public async Task<IActionResult> Index(string toname)
         {
-            List<Message> messages = (from m in _repository.GetMessages()
-            where m.To.Name == toname
-            select m).ToList();
+            var messages =  _repository.GetMessages()
+            .Where(m => m.To.Name == toname)
+            .ToList<Message>();                      
 
             return View("Index", messages);
         }
@@ -69,7 +69,7 @@ namespace AllAboutPigeons.Controllers
             if(model.To.UserName != "")  // check for valid recipient
             {
                 // Save the message
-                _repository.StoreMessage(model);
+               await _repository.StoreMessageAsync(model);
                 return RedirectToAction("Index", new { model.MessageId });
             }
             else

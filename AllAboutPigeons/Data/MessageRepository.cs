@@ -11,9 +11,9 @@ namespace AllAboutPigeons.Data
             _context = c;
         }
 
-        public Message GetMessageById(int id)
+        public async Task<Message> GetMessageByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Messages.FindAsync(id);
         }
 
         public List<Message> GetMessages()
@@ -21,12 +21,12 @@ namespace AllAboutPigeons.Data
             return _context.Messages
             .Include(m => m.To)
             .Include(m => m.From)
-            .ToList();
+            .ToList<Message>();
         }
 
-        public int StoreMessage(Message message)
+        public async Task<int> StoreMessageAsync(Message message)
         {
-            _context.Add(message);
+            await _context.AddAsync(message);
             // Returns the number of objects saved
             return _context.SaveChanges();
         }

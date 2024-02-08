@@ -6,7 +6,7 @@ namespace AllAboutPigeons.Data
     {
         List<Message> _messages = new List<Message>();
 
-        public Message GetMessageById(int id)
+        public async Task<Message> GetMessageByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -16,7 +16,7 @@ namespace AllAboutPigeons.Data
             throw new NotImplementedException();
         }
 
-        public int StoreMessage(Message message)
+        public async Task<int> StoreMessageAsync(Message message)
         {
             message.MessageId = _messages.Count + 1; // Temp
             _messages.Add(message);
