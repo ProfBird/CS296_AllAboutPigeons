@@ -5,7 +5,13 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllAboutPigeons", "AllAboutPigeons.csproj", "{B79D3FD2-A364-41D5-B4EB-B3ACC016E368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PigeonTests", "..\PigeonTests\PigeonTests.csproj", "{6EB32244-B03B-4281-91E3-FFFE149F6BDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PigeonTests", "..\PigeonTests\PigeonTests.csproj", "{6EB32244-B03B-4281-91E3-FFFE149F6BDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{559A84A0-580A-4121-86F7-849588D8A35A}"
+	ProjectSection(SolutionItems) = preProject
+		..\Docs\AllAboutPigeonsLoadTest.jmx = ..\Docs\AllAboutPigeonsLoadTest.jmx
+		..\Docs\SiteMap.md = ..\Docs\SiteMap.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
