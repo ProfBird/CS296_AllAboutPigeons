@@ -9,7 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PigeonTests", "..\PigeonTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{559A84A0-580A-4121-86F7-849588D8A35A}"
 	ProjectSection(SolutionItems) = preProject
-		..\Docs\AllAboutPigeonsLoadTest.jmx = ..\Docs\AllAboutPigeonsLoadTest.jmx
 		..\Docs\SiteMap.md = ..\Docs\SiteMap.md
 	EndProjectSection
 EndProject
@@ -33,5 +32,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {301BED07-F880-456F-8FAB-0E9D2DE29543}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
