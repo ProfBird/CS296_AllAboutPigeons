@@ -6,6 +6,11 @@ namespace AllAboutPigeons.Data
     {
         List<Message> _messages = new List<Message>();
 
+        public int DeleteMessage(int messageId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Message> GetMessageByIdAsync(int id)
         {
             throw new NotImplementedException();

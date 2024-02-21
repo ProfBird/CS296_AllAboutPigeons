@@ -79,6 +79,13 @@ namespace AllAboutPigeons.Controllers
             }
         }
 
+        public IActionResult DeleteForumPost(int messageId)
+        {
+            // TODO: Do something like redirect if the delete fails
+            _repository.DeleteMessage(messageId);
+            return RedirectToAction("Index");
+        }
+
             public IActionResult Info()
         {
             return View();
