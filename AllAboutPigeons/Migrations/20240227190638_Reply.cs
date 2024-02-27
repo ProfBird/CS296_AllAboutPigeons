@@ -213,7 +213,7 @@ namespace AllAboutPigeons.Migrations
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     ReplyMessageId = table.Column<int>(type: "int", nullable: true),
-                    originalMessage = table.Column<int>(type: "int", nullable: true)
+                    idOriginalMessage = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

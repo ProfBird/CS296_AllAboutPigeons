@@ -39,12 +39,12 @@ namespace AllAboutPigeons.Controllers
         }
 
         [Authorize]
-        public IActionResult ForumPost(int? messageId) 
+        public IActionResult ForumPost(int? idOriginalMessage) 
         {
             Message message = new Message();
             // if messageId is not null, this is a reply
-            if (messageId != null) {
-                message.originalMessage = messageId;
+            if (idOriginalMessage != null) {
+                message.idOriginalMessage = idOriginalMessage;
             }
             return View(message);
         }
@@ -70,18 +70,17 @@ namespace AllAboutPigeons.Controllers
             // TODO: Add a way for users to rate messages, or remove ratings
             Random random = new Random();
             model.Rating = random.Next(0, 10);
-
- 
             
             if(model.To.UserName != null)  // check for valid recipient
             {
                 // Save the message
                await _repository.StoreMessageAsync(model);
 
-                // if this is a reply add it to the original message
-                if (model.originalMessage != null)
+                // If this is a reply add it to the message being replied to.
+                if (model.idOriginalMessage != null)
                 {
-                    Message originalMessage = await _repository.GetMessageByIdAsync(model.originalMessage.Value);
+                    // Note: The Value property is being used to essentially cast the nullable int to an int.
+                    Message originalMessage = await _repository.GetMessageByIdAsync(model.idOriginalMessage.Value);
                     originalMessage.Reply = model;
                 }
                 return RedirectToAction("Index", new { model.MessageId });

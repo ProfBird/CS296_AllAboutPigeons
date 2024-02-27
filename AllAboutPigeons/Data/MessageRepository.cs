@@ -28,13 +28,14 @@ namespace AllAboutPigeons.Data
         {
             await _context.AddAsync(message);
             // Returns the number of objects saved
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
+        // Update the database with any changes made to the message object.
         public int UpdateMessage(Message message)
         {
             _context.Update(message);
-            // Returns the number of objects saved
+            // Returns the number of updated saved
             return _context.SaveChanges();
         }
 

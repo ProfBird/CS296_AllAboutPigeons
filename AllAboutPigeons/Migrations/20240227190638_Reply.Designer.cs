@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllAboutPigeons.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240226231653_Reply")]
+    [Migration("20240227190638_Reply")]
     partial class Reply
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ namespace AllAboutPigeons.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("originalMessage")
+                    b.Property<int?>("idOriginalMessage")
                         .HasColumnType("int");
 
                     b.HasKey("MessageId");

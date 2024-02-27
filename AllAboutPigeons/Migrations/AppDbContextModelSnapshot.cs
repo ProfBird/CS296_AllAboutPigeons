@@ -46,7 +46,7 @@ namespace AllAboutPigeons.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("originalMessage")
+                    b.Property<int?>("idOriginalMessage")
                         .HasColumnType("int");
 
                     b.HasKey("MessageId");
