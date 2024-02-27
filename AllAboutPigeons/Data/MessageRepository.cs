@@ -31,6 +31,13 @@ namespace AllAboutPigeons.Data
             return _context.SaveChanges();
         }
 
+        public int UpdateMessage(Message message)
+        {
+            _context.Update(message);
+            // Returns the number of objects saved
+            return _context.SaveChanges();
+        }
+
         public int DeleteMessage(int messageId)
         {
             Message message = _context.Messages.Find(messageId);

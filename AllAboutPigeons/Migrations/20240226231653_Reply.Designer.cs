@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllAboutPigeons.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240124222046_Identity")]
-    partial class Identity
+    [Migration("20240226231653_Reply")]
+    partial class Reply
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,9 @@ namespace AllAboutPigeons.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReplyMessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -45,9 +48,14 @@ namespace AllAboutPigeons.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("originalMessage")
+                        .HasColumnType("int");
+
                     b.HasKey("MessageId");
 
                     b.HasIndex("FromId");
+
+                    b.HasIndex("ReplyMessageId");
 
                     b.HasIndex("ToId");
 
@@ -257,7 +265,6 @@ namespace AllAboutPigeons.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasDiscriminator().HasValue("AppUser");
@@ -271,6 +278,10 @@ namespace AllAboutPigeons.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AllAboutPigeons.Models.Message", "Reply")
+                        .WithMany()
+                        .HasForeignKey("ReplyMessageId");
+
                     b.HasOne("AllAboutPigeons.Models.AppUser", "To")
                         .WithMany()
                         .HasForeignKey("ToId")
@@ -278,6 +289,8 @@ namespace AllAboutPigeons.Migrations
                         .IsRequired();
 
                     b.Navigation("From");
+
+                    b.Navigation("Reply");
 
                     b.Navigation("To");
                 });

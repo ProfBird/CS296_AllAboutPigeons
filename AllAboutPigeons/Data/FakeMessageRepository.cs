@@ -27,5 +27,10 @@ namespace AllAboutPigeons.Data
             _messages.Add(message);
             return message.MessageId;
         }
+
+        public int UpdateMessage(Message message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

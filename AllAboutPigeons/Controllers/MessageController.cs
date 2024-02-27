@@ -39,9 +39,14 @@ namespace AllAboutPigeons.Controllers
         }
 
         [Authorize]
-        public IActionResult ForumPost() 
+        public IActionResult ForumPost(int? messageId) 
         {
-            return View();
+            Message message = new Message();
+            // if messageId is not null, this is a reply
+            if (messageId != null) {
+                message.originalMessage = messageId;
+            }
+            return View(message);
         }
 
         [HttpPost]
@@ -54,7 +59,7 @@ namespace AllAboutPigeons.Controllers
                 // Get the sender
                 model.From = _userManager.GetUserAsync(User).Result;
                 // Check to see if the recipient user name matches a registered user
-                AppUser recipient = await _userManager.FindByNameAsync(model.To.Name);
+                AppUser recipient = _userManager.FindByNameAsync(model.To.Name).Result;
                 if (recipient != null)
                 {
                     model.To = recipient;
@@ -65,11 +70,20 @@ namespace AllAboutPigeons.Controllers
             // TODO: Add a way for users to rate messages, or remove ratings
             Random random = new Random();
             model.Rating = random.Next(0, 10);
+
+ 
             
-            if(model.To.UserName != "")  // check for valid recipient
+            if(model.To.UserName != null)  // check for valid recipient
             {
                 // Save the message
                await _repository.StoreMessageAsync(model);
+
+                // if this is a reply add it to the original message
+                if (model.originalMessage != null)
+                {
+                    Message originalMessage = await _repository.GetMessageByIdAsync(model.originalMessage.Value);
+                    originalMessage.Reply = model;
+                }
                 return RedirectToAction("Index", new { model.MessageId });
             }
             else

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AllAboutPigeons.Migrations
 {
-    public partial class Identity : Migration
+    public partial class Reply : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,7 +211,9 @@ namespace AllAboutPigeons.Migrations
                     Text = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: false)
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    ReplyMessageId = table.Column<int>(type: "int", nullable: true),
+                    originalMessage = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -228,6 +230,11 @@ namespace AllAboutPigeons.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Messages_Messages_ReplyMessageId",
+                        column: x => x.ReplyMessageId,
+                        principalTable: "Messages",
+                        principalColumn: "MessageId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -272,6 +279,11 @@ namespace AllAboutPigeons.Migrations
                 name: "IX_Messages_FromId",
                 table: "Messages",
                 column: "FromId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReplyMessageId",
+                table: "Messages",
+                column: "ReplyMessageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ToId",
