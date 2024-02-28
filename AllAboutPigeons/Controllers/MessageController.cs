@@ -20,8 +20,8 @@ namespace AllAboutPigeons.Controllers
         // TODO: Do something interesting with the messageId
         public IActionResult Index()
         {
+            var messages = _repository.GetMessages();
             // Get the last post out of the database
-           var messages = _repository.GetMessages();
             // .Where(m => m.MessageId == int.Parse(messageId))
             // .FirstOrDefault();
             // .Find(int.Parse(messageId));
@@ -76,13 +76,16 @@ namespace AllAboutPigeons.Controllers
                 // Save the message
                await _repository.StoreMessageAsync(model);
 
-                // If this is a reply add it to the message being replied to.
+                // If this is a reply...
                 if (model.idOriginalMessage != null)
-                {
-                    // Note: The Value property is being used to essentially cast the nullable int to an int.
+                { 
+                    // Add the reply to the original message
+                    // (Note: The Value property is being used to essentially cast the nullable int to an int.)
                     Message originalMessage = await _repository.GetMessageByIdAsync(model.idOriginalMessage.Value);
                     originalMessage.Reply = model;
+                    _repository.UpdateMessage(originalMessage);
                 }
+                //TODO: Do something interesting/useful with the MessageId or don't send it. It's not currently used.
                 return RedirectToAction("Index", new { model.MessageId });
             }
             else
@@ -91,6 +94,7 @@ namespace AllAboutPigeons.Controllers
                 return View(model);
             }
         }
+        
 
         public IActionResult DeleteForumPost(int messageId)
         {

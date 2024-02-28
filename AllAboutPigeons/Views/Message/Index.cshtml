@@ -23,17 +23,39 @@
 Members can also offer birds for sale or report missing or found birds.
 @if (Model != null)
 {
-
-    @foreach(var message in Model)
+    foreach (var message in Model)
     {
-        <p>
-            From: @message.From.Name <br>
-            To: @message.To.Name <br>
-            Message: @message.Text <br>
-            Date: @message.Date<br> 
-            Rating: @message.Rating<br>
-            <a href="/Message/ForumPost?idOriginalMessage=@message.MessageId">Reply</a><br>
-            <a href="/Message/DeleteForumPost?messageId=@message.MessageId">Delete Message</a>
-        </p>
+        if (message.idOriginalMessage == null) @* If the message is not a reply, show it here *@
+        {
+            <p>
+                <h3>Post</h3>
+                From: @message.From.Name <br>
+                To: @message.To.Name <br>
+                Message: @message.Text <br>
+                Date: @message.Date<br>
+                Rating: @message.Rating<br>
+                <a href="/Message/ForumPost?idOriginalMessage=@message.MessageId">Reply</a><br>
+                <a href="/Message/DeleteForumPost?messageId=@message.MessageId">Delete Message</a>
+            </p>
+        }
+        @* If the message has a reply (or replies), show it (them) here *@
+        @if(message.Reply != null) 
+        {
+            var reply = message.Reply;
+            <h4>Replies</h4>
+            @while (reply != null)
+            {
+                <p>
+                    From: @reply.From.Name <br>
+                    To: @reply.To.Name <br>
+                    Message: @reply.Text <br>
+                    Date: @reply.Date<br>
+                    Rating: @reply.Rating<br>
+                    <a href="/Message/ForumPost?idOriginalMessage=@reply.MessageId">Reply</a><br>
+                    <a href="/Message/DeleteForumPost?messageId=@reply.MessageId">Delete Message</a>
+                </p>
+                reply = reply.Reply;
+            }
+        }
     }
 }
