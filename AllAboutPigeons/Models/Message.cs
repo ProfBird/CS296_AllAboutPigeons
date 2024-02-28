@@ -1,4 +1,6 @@
-﻿namespace AllAboutPigeons.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AllAboutPigeons.Models
 {
     public class Message
     {
@@ -9,10 +11,8 @@
         public DateOnly Date {  get; set; }
         public int Rating { get; set; }
 
-        // if there is a reply this property will reference it
-        public Message? Reply { get; set; } = null;
-
-        // if this is a reply this property  to point back to the original message
+        // if there are replies this property will reference them
+        public List<Reply> Replies { get; set; } = new List<Reply>();
         public int? idOriginalMessage { get; set; } = null;
     }
 

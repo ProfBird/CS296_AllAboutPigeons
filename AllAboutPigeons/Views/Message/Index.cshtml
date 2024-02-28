@@ -19,16 +19,16 @@
     <input type="submit" />
 </form>
 
-<h2>Forum Posts</h2>
+<h2>Messages</h2>
 Members can also offer birds for sale or report missing or found birds.
 @if (Model != null)
 {
     foreach (var message in Model)
     {
-        if (message.idOriginalMessage == null) @* If the message is not a reply, show it here *@
+       // if (message.idOriginalMessage == null) @* If the message is not a reply, show it here *@
         {
             <p>
-                <h3>Post</h3>
+                <h3>Messages</h3>
                 From: @message.From.Name <br>
                 To: @message.To.Name <br>
                 Message: @message.Text <br>
@@ -39,22 +39,18 @@ Members can also offer birds for sale or report missing or found birds.
             </p>
         }
         @* If the message has a reply (or replies), show it (them) here *@
-        @if(message.Reply != null) 
+        @if(message.Replies.Count != 0) 
         {
-            var reply = message.Reply;
             <h4>Replies</h4>
-            @while (reply != null)
+            @foreach(Message reply in message.Replies)
             {
                 <p>
                     From: @reply.From.Name <br>
                     To: @reply.To.Name <br>
                     Message: @reply.Text <br>
                     Date: @reply.Date<br>
-                    Rating: @reply.Rating<br>
-                    <a href="/Message/ForumPost?idOriginalMessage=@reply.MessageId">Reply</a><br>
                     <a href="/Message/DeleteForumPost?messageId=@reply.MessageId">Delete Message</a>
                 </p>
-                reply = reply.Reply;
             }
         }
     }

@@ -28,14 +28,15 @@ namespace AllAboutPigeons.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("FromId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReplyMessageId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -53,11 +54,11 @@ namespace AllAboutPigeons.Migrations
 
                     b.HasIndex("FromId");
 
-                    b.HasIndex("ReplyMessageId");
-
                     b.HasIndex("ToId");
 
                     b.ToTable("Messages");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Message");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -268,6 +269,18 @@ namespace AllAboutPigeons.Migrations
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
+            modelBuilder.Entity("AllAboutPigeons.Models.Reply", b =>
+                {
+                    b.HasBaseType("AllAboutPigeons.Models.Message");
+
+                    b.Property<int?>("MessageId1")
+                        .HasColumnType("int");
+
+                    b.HasIndex("MessageId1");
+
+                    b.HasDiscriminator().HasValue("Reply");
+                });
+
             modelBuilder.Entity("AllAboutPigeons.Models.Message", b =>
                 {
                     b.HasOne("AllAboutPigeons.Models.AppUser", "From")
@@ -276,10 +289,6 @@ namespace AllAboutPigeons.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AllAboutPigeons.Models.Message", "Reply")
-                        .WithMany()
-                        .HasForeignKey("ReplyMessageId");
-
                     b.HasOne("AllAboutPigeons.Models.AppUser", "To")
                         .WithMany()
                         .HasForeignKey("ToId")
@@ -287,8 +296,6 @@ namespace AllAboutPigeons.Migrations
                         .IsRequired();
 
                     b.Navigation("From");
-
-                    b.Navigation("Reply");
 
                     b.Navigation("To");
                 });
@@ -342,6 +349,18 @@ namespace AllAboutPigeons.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AllAboutPigeons.Models.Reply", b =>
+                {
+                    b.HasOne("AllAboutPigeons.Models.Message", null)
+                        .WithMany("Replies")
+                        .HasForeignKey("MessageId1");
+                });
+
+            modelBuilder.Entity("AllAboutPigeons.Models.Message", b =>
+                {
+                    b.Navigation("Replies");
                 });
 #pragma warning restore 612, 618
         }

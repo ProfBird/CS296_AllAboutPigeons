@@ -43,9 +43,9 @@ namespace AllAboutPigeons.Controllers
         {
             Message message = new Message();
             // if messageId is not null, this is a reply
-            if (idOriginalMessage != null) {
-                message.idOriginalMessage = idOriginalMessage;
-            }
+            //if (idOriginalMessage != null) {
+            //    message.idOriginalMessage = idOriginalMessage;
+            //}
             return View(message);
         }
 
@@ -82,9 +82,9 @@ namespace AllAboutPigeons.Controllers
                     // Add the reply to the original message
                     // (Note: The Value property is being used to essentially cast the nullable int to an int.)
                     Message originalMessage = await _repository.GetMessageByIdAsync(model.idOriginalMessage.Value);
-                    originalMessage.Reply = model;
+                    originalMessage.Replies.Add(model);
                     _repository.UpdateMessage(originalMessage);
-                }
+                } 
                 //TODO: Do something interesting/useful with the MessageId or don't send it. It's not currently used.
                 return RedirectToAction("Index", new { model.MessageId });
             }

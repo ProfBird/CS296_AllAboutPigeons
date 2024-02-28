@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AllAboutPigeons.Migrations
 {
-    public partial class Reply : Migration
+    public partial class Replies : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -212,8 +212,10 @@ namespace AllAboutPigeons.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
-                    ReplyMessageId = table.Column<int>(type: "int", nullable: true),
-                    idOriginalMessage = table.Column<int>(type: "int", nullable: true)
+                    idOriginalMessage = table.Column<int>(type: "int", nullable: true),
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MessageId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -231,8 +233,8 @@ namespace AllAboutPigeons.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Messages_Messages_ReplyMessageId",
-                        column: x => x.ReplyMessageId,
+                        name: "FK_Messages_Messages_MessageId1",
+                        column: x => x.MessageId1,
                         principalTable: "Messages",
                         principalColumn: "MessageId");
                 })
@@ -281,9 +283,9 @@ namespace AllAboutPigeons.Migrations
                 column: "FromId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_ReplyMessageId",
+                name: "IX_Messages_MessageId1",
                 table: "Messages",
-                column: "ReplyMessageId");
+                column: "MessageId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ToId",
