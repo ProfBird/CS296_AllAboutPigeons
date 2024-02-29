@@ -3,7 +3,6 @@
     ViewData["Title"] = "Pigeon Registry";
 }
 
-
 <h1>Pigeon Registry</h1>
 <p>
     Members can list their pigeons here by breed and color.
@@ -25,7 +24,7 @@ Members can also offer birds for sale or report missing or found birds.
 {
     foreach (var message in Model)
     {
-       // if (message.idOriginalMessage == null) @* If the message is not a reply, show it here *@
+       if (message is Message) 
         {
             <p>
                 <h3>Messages</h3>
@@ -42,7 +41,7 @@ Members can also offer birds for sale or report missing or found birds.
         @if(message.Replies.Count != 0) 
         {
             <h4>Replies</h4>
-            @foreach(Message reply in message.Replies)
+            @foreach(Reply reply in message.Replies)
             {
                 <p>
                     From: @reply.From.Name <br>

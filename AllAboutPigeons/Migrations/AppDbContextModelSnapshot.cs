@@ -276,6 +276,9 @@ namespace AllAboutPigeons.Migrations
                     b.Property<int?>("MessageId1")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReplyId")
+                        .HasColumnType("int");
+
                     b.HasIndex("MessageId1");
 
                     b.HasDiscriminator().HasValue("Reply");

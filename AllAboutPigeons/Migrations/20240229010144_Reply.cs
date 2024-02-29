@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AllAboutPigeons.Migrations
 {
-    public partial class Replies : Migration
+    public partial class Reply : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -215,6 +215,7 @@ namespace AllAboutPigeons.Migrations
                     idOriginalMessage = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    ReplyId = table.Column<int>(type: "int", nullable: true),
                     MessageId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

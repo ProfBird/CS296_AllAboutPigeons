@@ -8,10 +8,11 @@ namespace AllAboutPigeons.Controllers
 {
     public class MessageController : Controller
     {
-       // AppDbContext context;
-       readonly IMessageRepository _repository;
-       readonly UserManager<AppUser> _userManager;
-        public MessageController(IMessageRepository r, UserManager<AppUser> u) 
+        // AppDbContext context;
+        readonly IMessageRepository _repository;
+        readonly UserManager<AppUser> _userManager;
+
+        public MessageController(IMessageRepository r, UserManager<AppUser> u)
         {
             _repository = r;
             _userManager = u;
@@ -31,27 +32,23 @@ namespace AllAboutPigeons.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string toname)
         {
-            var messages =  _repository.GetMessages()
-            .Where(m => m.To.Name == toname)
-            .ToList<Message>();                      
+            var messages = _repository.GetMessages()
+                .Where(m => m.To.Name == toname)
+                .ToList<Message>();
 
             return View("Index", messages);
         }
 
         [Authorize]
-        public IActionResult ForumPost(int? idOriginalMessage) 
+        public IActionResult ForumPost(int? idOriginalMessage)
         {
             Message message = new Message();
-            // if messageId is not null, this is a reply
-            //if (idOriginalMessage != null) {
-            //    message.idOriginalMessage = idOriginalMessage;
-            //}
             return View(message);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult>  ForumPost(Message model)
+        public async Task<IActionResult> ForumPost(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
             if (_userManager != null) // Don't get a user when doing unit tests
@@ -70,21 +67,11 @@ namespace AllAboutPigeons.Controllers
             // TODO: Add a way for users to rate messages, or remove ratings
             Random random = new Random();
             model.Rating = random.Next(0, 10);
-            
-            if(model.To.UserName != null)  // check for valid recipient
+
+            if (model.To.UserName != null) // check for valid recipient
             {
                 // Save the message
-               await _repository.StoreMessageAsync(model);
-
-                // If this is a reply...
-                if (model.idOriginalMessage != null)
-                { 
-                    // Add the reply to the original message
-                    // (Note: The Value property is being used to essentially cast the nullable int to an int.)
-                    Message originalMessage = await _repository.GetMessageByIdAsync(model.idOriginalMessage.Value);
-                    originalMessage.Replies.Add(model);
-                    _repository.UpdateMessage(originalMessage);
-                } 
+                await _repository.StoreMessageAsync(model);
                 //TODO: Do something interesting/useful with the MessageId or don't send it. It's not currently used.
                 return RedirectToAction("Index", new { model.MessageId });
             }
@@ -94,7 +81,29 @@ namespace AllAboutPigeons.Controllers
                 return View(model);
             }
         }
-        
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Reply(Reply model)
+        {
+            model.Date = DateOnly.FromDateTime(DateTime.Now);
+            if (_userManager != null) // Don't get a user when doing unit tests
+            {
+                // Get the sender
+                model.From = _userManager.GetUserAsync(User).Result;
+            }
+            // Get the message being replied to
+            Message originalMessage = await _repository.GetMessageByIdAsync(model.MessageId);
+            // Get the recipient
+            model.To = originalMessage.From;
+            // Save the message
+            await _repository.StoreMessageAsync(model);
+            // Add the reply to the original message
+            originalMessage.Replies.Add(model);
+            _repository.UpdateMessage(originalMessage);
+            //TODO: Do something interesting/useful with the MessageId or don't send it. It's not currently used.
+            return RedirectToAction("Index", new { model.MessageId });
+        }
 
         public IActionResult DeleteForumPost(int messageId)
         {
@@ -103,10 +112,9 @@ namespace AllAboutPigeons.Controllers
             return RedirectToAction("Index");
         }
 
-            public IActionResult Info()
+        public IActionResult Info()
         {
             return View();
         }
-
     }
 }
