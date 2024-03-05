@@ -13,7 +13,11 @@ namespace AllAboutPigeons.Data
 
         public async Task<Message> GetMessageByIdAsync(int id)
         {
-            return await _context.Messages.FindAsync(id);
+           var message = await _context.Messages.FindAsync(id);
+            _context.Entry(message).Reference(m => m.To).Load(); 
+            _context.Entry(message).Reference(m => m.From).Load();
+            _context.Entry(message).Collection(m => m.Replies).Load();
+            return message;
         }
 
         public List<Message> GetMessages()
@@ -41,8 +45,16 @@ namespace AllAboutPigeons.Data
 
         public int DeleteMessage(int messageId)
         {
-            Message message = _context.Messages.Find(messageId);
-            _context.Remove(message); 
+            Message message = GetMessageByIdAsync(messageId).Result;
+            // If the message has replies, remove them first to avoid a FK constraint violation
+            if (message.Replies.Count > 0)
+            {
+                foreach (var reply in message.Replies)
+                {
+                    _context.Messages.Remove(reply);
+                }
+            }
+            _context.Messages.Remove(message);
             return _context.SaveChanges();
         }
     }

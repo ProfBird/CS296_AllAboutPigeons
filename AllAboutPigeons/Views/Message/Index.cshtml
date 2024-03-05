@@ -33,7 +33,7 @@ Members can also offer birds for sale or report missing or found birds.
                 Message: @message.Text <br>
                 Date: @message.Date<br>
                 Rating: @message.Rating<br>
-                <a href="/Message/ForumPost?idOriginalMessage=@message.MessageId">Reply</a><br>
+                <a href="/Message/Reply?OriginalMessageId=@message.MessageId">Reply</a><br>
                 <a href="/Message/DeleteForumPost?messageId=@message.MessageId">Delete Message</a>
             </p>
         }
@@ -41,7 +41,7 @@ Members can also offer birds for sale or report missing or found birds.
         @if(message.Replies.Count != 0) 
         {
             <h4>Replies</h4>
-            @foreach(Reply reply in message.Replies)
+            @foreach(Message reply in message.Replies)
             {
                 <p>
                     From: @reply.From.Name <br>

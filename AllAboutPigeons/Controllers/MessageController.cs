@@ -30,7 +30,7 @@ namespace AllAboutPigeons.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string toname)
+        public IActionResult Index(string toname)
         {
             var messages = _repository.GetMessages()
                 .Where(m => m.To.Name == toname)
@@ -40,10 +40,9 @@ namespace AllAboutPigeons.Controllers
         }
 
         [Authorize]
-        public IActionResult ForumPost(int? idOriginalMessage)
+        public IActionResult ForumPost()
         {
-            Message message = new Message();
-            return View(message);
+            return View();
         }
 
         [HttpPost]
@@ -82,9 +81,17 @@ namespace AllAboutPigeons.Controllers
             }
         }
 
+        [Authorize]
+        public IActionResult Reply(int? OriginalMessageId)
+        {
+            Message message = new Message();
+            message.OriginalMessageId = OriginalMessageId;
+            return View(message);
+        }
+        
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Reply(Reply model)
+        public async Task<IActionResult> Reply(Message model)
         {
             model.Date = DateOnly.FromDateTime(DateTime.Now);
             if (_userManager != null) // Don't get a user when doing unit tests
@@ -92,8 +99,8 @@ namespace AllAboutPigeons.Controllers
                 // Get the sender
                 model.From = _userManager.GetUserAsync(User).Result;
             }
-            // Get the message being replied to
-            Message originalMessage = await _repository.GetMessageByIdAsync(model.MessageId);
+            // Get the message being replied to (guarantted to be not null by design)
+            Message originalMessage = await _repository.GetMessageByIdAsync(model.OriginalMessageId.Value);
             // Get the recipient
             model.To = originalMessage.From;
             // Save the message
