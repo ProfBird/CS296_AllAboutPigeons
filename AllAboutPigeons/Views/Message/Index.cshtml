@@ -3,28 +3,27 @@
     ViewData["Title"] = "Pigeon Registry";
 }
 
-<h1>Pigeon Registry</h1>
+<h1>Pigeon Messages</h1>
 <p>
-    Members can list their pigeons here by breed and color.
-    The registry will be searchable by breed, color, owner and band number.
+    Members can send messages to other members.
 </p>
 <p>
-<a href="Message/ForumPost">Enter a new post</a>
+<a href="Message/ForumPost">Enter a new message</a>
 </p>
-<h2>Filter Forum Posts</h2>
+<h2>Filter Messages</h2>
 <form method="post">
-    <label>Recipient</label>
+    <label>Recipient (a user name)</label>
     <input name="toname"/>
     <input type="submit" />
 </form>
 
-<h2>Messages</h2>
-Members can also offer birds for sale or report missing or found birds.
+<h2>Message Board</h2>
+Messages to and from members.
 @if (Model != null)
 {
     foreach (var message in Model)
     {
-       if (message is Message) 
+       if (message.OriginalMessageId == null) 
         {
             <p>
                 <h3>Messages</h3>
