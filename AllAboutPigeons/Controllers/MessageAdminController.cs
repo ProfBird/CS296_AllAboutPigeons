@@ -11,13 +11,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AllAboutPigeons.Controllers
 {
-    public class MessagesController : Controller
+    public class MessageAdminController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IMessageRepository _repository;
         private readonly UserManager<AppUser> _userManager;
 
-        public MessagesController(AppDbContext context, IMessageRepository repository, UserManager<AppUser> u)
+        public MessageAdminController(AppDbContext context, IMessageRepository repository, UserManager<AppUser> u)
         {
             _context = context;
             _repository = repository;
@@ -72,7 +72,8 @@ namespace AllAboutPigeons.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string toId, string fromId, [Bind("MessageId,Text,Date,Rating,OriginalMessageId")] Message message)
+        public async Task<IActionResult> Edit(int id, string toId, string fromId, 
+            [Bind("MessageId,Text,Date,Rating,OriginalMessageId")] Message message)
         {
             if (id != message.MessageId)
             {
@@ -83,8 +84,12 @@ namespace AllAboutPigeons.Controllers
             var from = await _userManager.FindByIdAsync(fromId);
             message.To = to;
             message.From = from;
-
-           // if (ModelState.IsValid)
+            // rerun model validation now that the To and From properties have been set
+            ModelState.ClearValidationState(nameof(Message.To));
+            ModelState.ClearValidationState(nameof(Message.From));
+            TryValidateModel(message);
+            
+           if (ModelState.IsValid)
             {
                 try
                 {
@@ -104,7 +109,7 @@ namespace AllAboutPigeons.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-           // return View(message);
+           return View(message);
         }
 
         // GET: Messages/Delete/5

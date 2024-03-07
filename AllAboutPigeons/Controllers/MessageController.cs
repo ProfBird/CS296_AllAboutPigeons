@@ -84,32 +84,32 @@ namespace AllAboutPigeons.Controllers
         [Authorize]
         public IActionResult Reply(int? OriginalMessageId)
         {
-            Message message = new Message();
-            message.OriginalMessageId = OriginalMessageId;
-            return View(message);
+            Message reply = new Message();
+            reply.OriginalMessageId = OriginalMessageId;
+            return View(reply);
         }
         
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Reply(Message model)
+        public async Task<IActionResult> Reply(Message reply)
         {
-            model.Date = DateOnly.FromDateTime(DateTime.Now);
+            reply.Date = DateOnly.FromDateTime(DateTime.Now);
             if (_userManager != null) // Don't get a user when doing unit tests
             {
                 // Get the sender
-                model.From = _userManager.GetUserAsync(User).Result;
+                reply.From = _userManager.GetUserAsync(User).Result;
             }
             // Get the message being replied to (guarantted to be not null by design)
-            Message originalMessage = await _repository.GetMessageByIdAsync(model.OriginalMessageId.Value);
+            Message originalMessage = await _repository.GetMessageByIdAsync(reply.OriginalMessageId.Value);
             // Get the recipient
-            model.To = originalMessage.From;
+            reply.To = originalMessage.From;
             // Save the message
-            await _repository.StoreMessageAsync(model);
+            await _repository.StoreMessageAsync(reply);
             // Add the reply to the original message
-            originalMessage.Replies.Add(model);
+            originalMessage.Replies.Add(reply);
             _repository.UpdateMessage(originalMessage);
             //TODO: Do something interesting/useful with the MessageId or don't send it. It's not currently used.
-            return RedirectToAction("Index", new { model.MessageId });
+            return RedirectToAction("Index", new { reply.MessageId });
         }
 
         public IActionResult DeleteForumPost(int messageId)
