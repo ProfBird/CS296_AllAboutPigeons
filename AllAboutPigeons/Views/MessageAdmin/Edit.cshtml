@@ -15,6 +15,7 @@
             <input type="hidden" asp-for="MessageId" />
             <input type="hidden" name="toId" value="@Model.To.Id" />
             <input type="hidden" name="fromId" value="@Model.From.Id" />
+            <input type="hidden" name="OriginalMessageId" value="@Model.OriginalMessageId" />
 
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
@@ -30,11 +31,6 @@
                 <label asp-for="Rating" class="control-label"></label>
                 <input asp-for="Rating" class="form-control" />
                 <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OriginalMessageId" class="control-label"></label>
-                <select asp-for="OriginalMessageId" class="form-control" asp-items="ViewBag.OriginalMessageId"></select>
-                <span asp-validation-for="OriginalMessageId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
