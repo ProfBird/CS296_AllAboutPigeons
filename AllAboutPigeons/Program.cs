@@ -30,6 +30,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    await next();
+});
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
